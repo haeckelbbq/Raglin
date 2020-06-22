@@ -3,5 +3,5 @@ hilfeanzeige.php
 include 'module/htmlbegin.php';
 
 
-echo '            hilfeanzeigeanzeige.php';
+echo '    Hilfetext        hilfeanzeigeanzeige.php';
 include 'module/htmlend.php';
