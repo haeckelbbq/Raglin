@@ -196,7 +196,7 @@ if(isset($charakter)){
 
 <?php } else{?>
     <br>
-<h2>Baue einen neuen Charakter</h2>
+<h2>Baue einen neuen Charaktererererer</h2>
 <form action="index.php" method="post">
     <input type="hidden" name="action" value="insert">
     <input type="hidden" name="area" value="charakter">
