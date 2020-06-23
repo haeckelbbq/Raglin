@@ -99,7 +99,10 @@ CREATE TABLE `gegner` (
                             `initative`             int(11) NOT NULL,
                             `wuerfelanzahl`         int(11) NOT NULL,
                             `wuerfelart`            int(11) NOT NULL,
-                            `schadensbonus`         int(11) NOT NULL
+                            `schadensbonus`         int(11) NOT NULL,
+                            `savedrop`              varchar(15) NOT NULL,
+                            `drop1`                 varchar(15) NOT NULL,
+                            `drop2`                 varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

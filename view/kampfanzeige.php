@@ -77,7 +77,7 @@ $groessenklasse=Charakter::getGroessenklasseByRasse($charakter->getRasse());
     {
         min = Math.ceil(1);
         max = Math.floor(10);
-        wuerfelergebnis=Math.floor(Math.random() * (max  - min)) + min  // returns a random integer from 1 to 10
+        wuerfelergebnis=Math.floor(Math.random() * (max  - min)) + min;  // returns a random integer from 1 to 10
         document.getElementById("Kampfprotokoll").innerHTML += wuerfelergebnis + ' ' ;
         return wuerfelergebnis;
     }
@@ -122,6 +122,12 @@ $groessenklasse=Charakter::getGroessenklasseByRasse($charakter->getRasse());
             document.getElementById('kampfstart').style.visibility = 'visible';
         }
 
+        document.getElementById("Gegnerstatus").innerHTML = '<h2><?php echo $gegner->getGname();?></h2>';
+        document.getElementById("Gegnerstatus").innerHTML += 'Lebenspunkte: ' + gegnerlptemp + '/' + gegnerlp + '<br>';
+        document.getElementById("Gegnerstatus").innerHTML += 'Angriffswert: ' + angriffswertgegner + '<br>';
+        document.getElementById("Gegnerstatus").innerHTML += 'Verteidigung: ' + verteidigunggegner + '<br>';
+        document.getElementById("Gegnerstatus").innerHTML += 'Schadensreduktion: ' + schadensreduktiongegner + '<br>';
+        document.getElementById("Gegnerstatus").innerHTML += 'Angriffswert: ' + angriffswertgegner + '<br><br>';
 
         document.getElementById("Spielerstatus").innerHTML = '<h2><?php echo $charakter->getCname();?></h2>';
         document.getElementById("Spielerstatus").innerHTML += 'Lebenspunkte: ' + charakterlptemp + '/' + charakterlp + '<br>';
@@ -141,8 +147,6 @@ $groessenklasse=Charakter::getGroessenklasseByRasse($charakter->getRasse());
 
     }
 
-
-
     function Angriff()
     {
 
@@ -153,7 +157,7 @@ $groessenklasse=Charakter::getGroessenklasseByRasse($charakter->getRasse());
         document.getElementById("Kampfprotokoll").innerHTML +='<br>';
         angriffcharakter=angriffsbonus+wuerfel1charakter+wuerfel2charakter;
 
-        if (gegnerlptemp > 0 & charakterlptemp >0)
+        if (gegnerlptemp > 0 && charakterlptemp >0)
         {
             if (angriffcharakter >= verteidigunggegner)
             {
@@ -238,8 +242,10 @@ $groessenklasse=Charakter::getGroessenklasseByRasse($charakter->getRasse());
             document.getElementById("Kampfprotokoll").innerHTML = "Du hast verloren blabla Malus";
         }
 
-
     }
+
+
+
 
 
 
