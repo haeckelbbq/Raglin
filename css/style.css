@@ -17,6 +17,8 @@ table, header, footer, section, aside, nav, article { display: block;}
 
 }
 
+
+
 header {
     margin-left: 100px;
     margin-right: 100px;
@@ -28,6 +30,18 @@ header {
     background: lightgray;
     background-image: url("IMG/fantasy.jpg");
     font-size:60px; font-weight: bold;
+
+}
+
+.Kampfprotokoll {
+    background: none;
+    height: 350px;
+    overflow-y: auto;
+    width: 700px;
+    padding: 10px;
+    margin: 50px;
+
+
 
 }
 header p{

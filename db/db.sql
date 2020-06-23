@@ -210,7 +210,7 @@ INSERT INTO charakter(cid, fk_user, fk_aktivewaffe, fk_aktiveruestung, fk_aktive
                       cname, gold, erfahrung, aktlebenspunkte,lebenspunktemax, ausstrahlung, beweglichkeit,
                       intuition, konstitution,mystik, staerke, verstand ,willenskraft,
                       handgemengeskill,hiebwaffenskill,kettenwaffenskill,klingenwaffenskill,stangenwaffenskill,tick, rasse)
-VALUES (NULL , 6 , 2 , 2, 2,  'Masterius' ,5000 ,30 , 32 , 32 , 2 , 1 , 1, 2,0,3,0,0,0,0,0,0,0,0,'Mensch');
+VALUES (NULL , 6 , 2 , 2, 2,  'Masterius' ,5000 ,30 , 32 , 32 , 2 , 1 , 1, 2,0,3,0,0,0,10,0,0,0,0,'Mensch');
 
 
 
