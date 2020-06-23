@@ -202,7 +202,6 @@ if(isset($charakter)){
     <input type="hidden" name="area" value="charakter">
     <table>
         <tbody>
-
         <tr>
             <td><label for="willenskraft">Willenskraft: </label></td>
             <td><input name="willenskraft" type="number"  id="willenskraft" min ="1" max=10"></td>
