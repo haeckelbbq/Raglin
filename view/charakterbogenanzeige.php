@@ -202,42 +202,12 @@ if(isset($charakter)){
     <input type="hidden" name="area" value="charakter">
     <table>
         <tbody>
-        <tr>
-            <td><label for="name">Charaktername:</label></td>
-            <td><input name="name" type="text" id="name"></td>
-        </tr>
-        <tr>
-            <td><label for="ausstrahlung">Ausstrahlung:</label></td>
-            <td><input name="ausstrahlung" type="text" id="ausstrahlung"></td>
-        </tr>
-        <tr>
-            <td><label for="beweglichkeit">Beweglichkeit:</label></td>
-            <td><input name="beweglichkeit" type="text" id="beweglichkeit"></td>
-        </tr>
-        <tr>
-            <td><label for="intuition">Intuition: </label></td>
-            <td><input name="intuition" type="text" id="intuition"></td>
-        </tr>
-        <tr>
-            <td><label for="konstitution">Konstitution: </label></td>
-            <td><input name="konstitution" type="konstitution" id="konstitution"></td>
-        </tr>
-        <tr>
-            <td><label for="mystik">Mystik: </label></td>
-            <td><input name="mystik" type="text" id="mystik"></td>
-        </tr>
-        <tr>
-            <td><label for="staerke">Stärke: </label></td>
-            <td><input name="staerke" type="text" id="staerke"></td>
-        </tr>
-        <tr>
-            <td><label for="verstand">Verstand: </label></td>
-            <td><input name="verstand" type="text" id="verstand"></td>
-        </tr>
+
         <tr>
             <td><label for="willenskraft">Willenskraft: </label></td>
-            <td><input name="willenskraft" type="text" id="willenskraft"></td>
+            <td><input name="willenskraft" type="number"  id="willenskraft" min ="1" max=10"></td>
         </tr>
+
         <td>Rasse wählen</td>
         <td>
             <input type = "radio" name="rasse" value="Gnom">
