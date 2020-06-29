@@ -1,4 +1,5 @@
-<?php include 'view/module/htmlbegin.php'; ?>
+<?php include 'view/module/htmlbegin.php';?>
+
 <table>
     <thead>
     <!--    <th>ID</th>-->
@@ -9,6 +10,10 @@
     <?php
     for($i = 0;$i < count($benutzer); $i++)
     {
+        if ($benutzer[$i]->getRolle() === 'regUser')
+        {
+
+
         ?>
         <tr>
 
@@ -18,6 +23,7 @@
             <td><a href="index.php?action=update&area=user&id=<?php echo $benutzer[$i]->getUid(); ?>"><input type="submit" name="submitAendern" value="ändern"></a></td>
         </tr>
         <?php
+        }
     }
     ?>
     </tbody>

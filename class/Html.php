@@ -14,6 +14,10 @@ class Html
     {
         ?>
         <br>
+         <br>
+          <br>
+           <br> <br>
+
         <a href="index.php?action=anzeige&area=charakterbogen">Charakterbogen</a>
         <br><br>
         <a href="index.php?action=anzeige&area=inventar">Inventar</a>
@@ -35,8 +39,8 @@ class Html
     public static function loadNavForAdmin()
     {
         ?>
-        <br>
-        <a href="index.php?action=anzeige&area=restaurant">Wird erweitert</a>
+        <br><br><br><br>
+
         <br><br>
         <a href="index.php?action=anzeige&area=quest">Quest erstellen</a>
         <br><br>
@@ -49,7 +53,7 @@ class Html
     public static function loadNavForCustomer()
     {
         ?>
-        <br>
+        <br><br><br><br><br>
         <a href="index.php?action=anzeige&area=login">Einloggen</a>
         <br><br>
         <a href="index.php?action=anzeige&area=registry">Registrieren</a>
@@ -143,8 +147,8 @@ class Html
         <tr>
 
             <td><?php echo $waffe->getWname(); ?></td>
-            <td><?php echo Anzeigeformat::formatAttributAbkuerzung($waffe->getAttri1(),$charakter->getBeweglichkeit(),$charakter->getKonstitution(),$charakter->getIntuition(),$charakter->getStaerke()); ?></td>
-            <td><?php echo Anzeigeformat::formatAttributAbkuerzung($waffe->getAttri2(),$charakter->getBeweglichkeit(),$charakter->getKonstitution(),$charakter->getIntuition(),$charakter->getStaerke()); ?></td>
+            <td><?php echo Anzeigeformat::formatAttributAbkuerzung($waffe->getAttri1(),$charakter->getAusstrahlung(),$charakter->getBeweglichkeit(),$charakter->getIntuition(),$charakter->getKonstitution(),$charakter->getMystik(),$charakter->getStaerke(),$charakter->getVerstand(),$charakter->getWillenskraft()); ?></td>
+            <td><?php echo Anzeigeformat::formatAttributAbkuerzung($waffe->getAttri2(),$charakter->getAusstrahlung(),$charakter->getBeweglichkeit(),$charakter->getIntuition(),$charakter->getKonstitution(),$charakter->getMystik(),$charakter->getStaerke(),$charakter->getVerstand(),$charakter->getWillenskraft()); ?></td>
             <td><?php echo Anzeigeformat::formatSchaden( $waffe->getwuerfelanzahl()
                                                     ,$waffe->getWuerfelart()
                                                     ,$waffe->getSchadensbonus());?></td>
@@ -206,21 +210,20 @@ class Html
         $ruestung = Charakter::getAktiveRuestung($charakter->getFkAktiveruestung());  // erzeugt ein Ruestung-Objekt das an den Charakter gebunden ist durch den FK
 
 
+
                 ?>
-        Charakterwerte
+
         <br>
-        <br>
-        Aktueller Charakter:
-        <br><?php echo $charakter->getCname(); ?>
-        <br>
-        <br>Lebenspunkte :
-        <?php echo $charakter->getAktlebenspunkte(); ?>
+
+        <h2><?php echo $charakter->getCname(); ?></h2>
+        Lebenspunkte :
+        <?php echo $charakter->getAktlebenspunkte(); ?>/<?php echo $charakter->getLebenspunktemax();?>
         <br>
         <br> Gold :
         <?php echo $charakter->getGold(); ?>
         <br>
-        <br> Erfahrung :
-        <?php echo $charakter->getErfahrung(); ?>
+        <br> verfügbare Erfahrung :
+        <?php echo ($charakter->getGesamterfahrung()-$charakter->getAusgegebeneerfahrung()); ?>
         <br>
         <br>
         Waffe:
@@ -231,7 +234,9 @@ class Html
         <?php echo $ruestung->getRname(); ?>
         <br>
         <br> Schild:<br>
-        <?php echo $schild->getSname(); ?>
+        <?php echo $schild->getSname(); ?><br>
+                <br> Rasse:<br>
+        <?php echo $charakter->getRasse(); ?>
         <?php
     }  // lädt den aktuell ausgewählen Charakter des Users in den Aside-Bereich
 

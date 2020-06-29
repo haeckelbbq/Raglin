@@ -14,11 +14,20 @@ class Charakter implements JsonSerializable
 
 //Aktiva
     private int     $gold;
-    private int     $erfahrung;
+    private int     $gesamterfahrung;
     private int     $aktlebenspunkte;
     private int     $lebenspunktemax;
+    private int     $tick;
     //Attribute
     private string  $rasse;
+    private int     $startausstrahlung;
+    private int     $startbeweglichkeit;
+    private int     $startintuition;
+    private int     $startkonstitution;
+    private int     $startmystik;
+    private int     $startstaerke;
+    private int     $startverstand;
+    private int     $startwillenskraft;
     private int     $ausstrahlung;
     private int     $beweglichkeit;
     private int     $intuition;
@@ -26,13 +35,84 @@ class Charakter implements JsonSerializable
     private int     $mystik;
     private int     $staerke;
     private int     $verstand;
+    private int     $handgemengeskill;
+    private int     $hiebwaffenskill;
+    private int     $kettenwaffenskill;
+    private int     $klingenwaffenskill;
+    private int     $stangenwaffenskill;
+    private int     $ausgegebeneerfahrung;
     private int     $willenskraft;
-    private int     $tick;
-    private int $handgemengeskill;
-    private int $hiebwaffenskill;
-    private int $kettenwaffenskill;
-    private int $klingenwaffenskill;
-    private int $stangenwaffenskill;
+
+
+    /**
+     * @return int
+     */
+    public function getStartausstrahlung(): int
+    {
+        return $this->startausstrahlung;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartbeweglichkeit(): int
+    {
+        return $this->startbeweglichkeit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartintuition(): int
+    {
+        return $this->startintuition;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartkonstitution(): int
+    {
+        return $this->startkonstitution;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartmystik(): int
+    {
+        return $this->startmystik;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartstaerke(): int
+    {
+        return $this->startstaerke;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartverstand(): int
+    {
+        return $this->startverstand;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartwillenskraft(): int
+    {
+        return $this->startwillenskraft;
+    }
+    public function getTick():float
+    {
+        return $this->tick;
+    }
+
+
 
 
     public function __construct(int $cid,
@@ -42,14 +122,17 @@ class Charakter implements JsonSerializable
                                 int $fk_aktivesschild,
                                 string $cname,
                                 int $gold,
-                                int $erfahrung,
+                                int $gesamterfahrung,
                                 int $aktlebenspunkte,
                                 int $lebenspunktemax,
                                 string $rasse,
+                                int $startausstrahlung,
+                                int $startbeweglichkeit, int $startintuition,
+                                int $startkonstitution,int $startmystik, int $startstaerke,int $startverstand, int $startwillenskraft,
                                 int $ausstrahlung,
                                 int $beweglichkeit, int $intuition,
                                 int $konstitution,int $mystik, int $staerke,int $verstand, int $willenskraft, int $handgemengeskill, int $hiebwaffenskill, int $kettenwaffenskill,
-                                int $klingenwaffenskill, int $stangenwaffenskill, int $tick)
+                                int $klingenwaffenskill, int $stangenwaffenskill, float $tick,int $ausgegebeneerfahrung)
 
     {
         $this->cid = $cid;
@@ -59,12 +142,21 @@ class Charakter implements JsonSerializable
         $this->fk_aktivesschild = $fk_aktivesschild;
         $this->cname = $cname;
         $this->gold = $gold;
-        $this->erfahrung = $erfahrung;
+        $this->gesamterfahrung = $gesamterfahrung;
         $this->aktlebenspunkte = $aktlebenspunkte;
         $this->lebenspunktemax = $lebenspunktemax;
+        $this->ausgegebeneerfahrung= $ausgegebeneerfahrung;
 
         //attribute
         $this->rasse=$rasse;
+        $this->startausstrahlung = $startausstrahlung;
+        $this->startbeweglichkeit = $startbeweglichkeit;
+        $this->startintuition = $startintuition;
+        $this->startkonstitution = $startkonstitution;
+        $this->startmystik = $startmystik;
+        $this->startstaerke = $startstaerke;
+        $this->startverstand = $startverstand;
+        $this->startwillenskraft = $startwillenskraft;
         $this->ausstrahlung = $ausstrahlung;
         $this->beweglichkeit = $beweglichkeit;
         $this->intuition = $intuition;
@@ -84,6 +176,14 @@ class Charakter implements JsonSerializable
     public function getRasse(): string
     {
         return $this->rasse;
+    }
+
+    /**
+     * @param int $ausgegebeneerfahrung
+     */
+    public function setAusgegebeneerfahrung(int $ausgegebeneerfahrung): void
+    {
+        $this->ausgegebeneerfahrung = $ausgegebeneerfahrung;
     }
 
     public function getAusstrahlung(): int
@@ -106,10 +206,7 @@ class Charakter implements JsonSerializable
         return $this->willenskraft;
     }
 
-    public function getTick(): int
-    {
-        return $this->tick;
-    }
+
 
     public function getHandgemengeskill(): int
     {
@@ -151,9 +248,9 @@ class Charakter implements JsonSerializable
         return $this->gold;
     }
 
-    public function getErfahrung(): int
+    public function getGesamterfahrung(): int
     {
-        return $this->erfahrung;
+        return $this->gesamterfahrung;
     }
 
     public function getAktlebenspunkte(): int
@@ -206,8 +303,27 @@ class Charakter implements JsonSerializable
         return $this->stangenwaffenskill;
     }
 
+    /**
+     * @return int
+     */
+    public function getStarterfahrung(): int
+    {
+        return $this->starterfahrung;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAusgegebeneerfahrung(): int
+    {
+        return $this->ausgegebeneerfahrung;
+    }
+
+
+
     public static function insertCharakter(int $fk_user, string $cname,string $rasse,int $ausstrahlung, int $beweglichkeit, int $intuition, int $konstitution,
-                                           int $mystik, int $staerke, int $verstand, int $willenskraft)
+                                           int $mystik, int $staerke, int $verstand, int $willenskraft,int $startausstrahlung, int $startbeweglichkeit, int $startintuition, int $startkonstitution,
+                                           int $startmystik, int $startstaerke, int $startverstand, int $startwillenskraft)
     {
 
         $lebenspunktemax = (5 + $konstitution) * 5;
@@ -217,11 +333,14 @@ class Charakter implements JsonSerializable
             $dbh = Db::getConnection();
             //DB abfragen
             $sql = 'INSERT INTO charakter(cid, fk_user, fk_aktivewaffe, fk_aktiveruestung, fk_aktivesschild,
-                                cname, gold, erfahrung, aktlebenspunkte,lebenspunktemax, ausstrahlung, beweglichkeit,
+                                cname, gold, gesamterfahrung, aktlebenspunkte,lebenspunktemax,startausstrahlung, startbeweglichkeit,
+                                startintuition, startkonstitution,startmystik, startstaerke, startverstand ,startwillenskraft, ausstrahlung, beweglichkeit,
                                 intuition, konstitution,mystik, staerke, verstand ,willenskraft,
-                                handgemengeskill,hiebwaffenskill,kettenwaffenskill,klingenwaffenskill,stangenwaffenskill,tick, rasse)
-                        VALUES(NULL, :fk_user, 1, 1, 1, :cname, 250, 0, :lebenspunktemax, 
-                                     :lebenspunkteakt, :ausstrahlung, :beweglichkeit, :intuition, :konstitution, :mystik, :staerke, :verstand, :willenskraft,0,0,0,0,0,0, :rasse)';
+                                handgemengeskill,hiebwaffenskill,kettenwaffenskill,klingenwaffenskill,stangenwaffenskill,tick, rasse,ausgegebeneerfahrung)
+                        VALUES(NULL, :fk_user, 1, 1, 1, :cname, 30, 0, :lebenspunktemax, 
+                                     :lebenspunkteakt, :startausstrahlung, :startbeweglichkeit, :startintuition, :startkonstitution, :startmystik, :startstaerke, 
+                                     :startverstand, :startwillenskraft, :ausstrahlung, :beweglichkeit, :intuition, :konstitution, :mystik, :staerke, :verstand, :willenskraft,
+                                     0,0,0,0,0,0, :rasse,0)';
             $sth = $dbh->prepare($sql);;
             $sth->bindParam('cname', $cname, PDO::PARAM_STR);
             $sth->bindParam('lebenspunktemax', $lebenspunktemax, PDO::PARAM_INT);
@@ -236,7 +355,14 @@ class Charakter implements JsonSerializable
             $sth->bindParam('staerke', $staerke, PDO::PARAM_INT);
             $sth->bindParam('verstand', $verstand, PDO::PARAM_INT);
             $sth->bindParam('willenskraft', $willenskraft, PDO::PARAM_INT);
-
+            $sth->bindParam('startausstrahlung', $startausstrahlung, PDO::PARAM_INT);
+            $sth->bindParam('startbeweglichkeit', $startbeweglichkeit, PDO::PARAM_INT);
+            $sth->bindParam('startintuition', $startintuition, PDO::PARAM_INT);
+            $sth->bindParam('startkonstitution', $startkonstitution, PDO::PARAM_INT);
+            $sth->bindParam('startmystik', $startmystik, PDO::PARAM_INT);
+            $sth->bindParam('startstaerke', $startstaerke, PDO::PARAM_INT);
+            $sth->bindParam('startverstand', $startverstand, PDO::PARAM_INT);
+            $sth->bindParam('startwillenskraft', $startwillenskraft, PDO::PARAM_INT);
 
             // Überlegung: Bei der Charaktererstellung evtl. Defaultwerte in die fk_s eintragen evtl auch Startgold? Wenn dann hier.
             // Aktuelle Lebenspunkte? reicht denk ich im Formular verwaltet zu werden, denn die sind ohnehin nur für die Kampfsequenz "temporär" vorhanden;
@@ -315,8 +441,9 @@ return $groessenklasse;
 
     // buildFromPDO ruft den Klassenkonstuktor bei der Datenbankabfrage auf und erzeugt pro Tupel ein eigenes Objekt
     public static function buildFromPDO(int $cid, int $fk_user, int $fk_aktivewaffe, int $fk_aktiveruestung, int $fk_aktivesschild, string $cname,
-                        int $gold, int $erfahrung, int $aktlebenspunkte, int $lebenspunktemax,int $ausstrahlung, int $beweglichkeit,
-                        int $intuition, int $konsitution, int $mystik, int $staerke, int $verstand, int $willenskraft, int $handgemengeskill, int $hiebwaffenskill, int $kettenwaffenskill, int $klingenwaffenskill, int $stangenwaffenskill, int $tick,string $rasse) : Charakter    {
+                        int $gold, int $starterfahrung, int $aktlebenspunkte, int $lebenspunktemax,int $startausstrahlung, int $startbeweglichkeit,
+                        int $startintuition, int $startkonsitution, int $startmystik, int $startstaerke, int $startverstand, int $startwillenskraft,int $ausstrahlung, int $beweglichkeit,
+                        int $intuition, int $konsitution, int $mystik, int $staerke, int $verstand, int $willenskraft, int $handgemengeskill, int $hiebwaffenskill, int $kettenwaffenskill, int $klingenwaffenskill, int $stangenwaffenskill, float $tick,string $rasse, int $ausgegebeneerfahrung) : Charakter    {
 
 
             $charakter = new Charakter(
@@ -327,10 +454,18 @@ return $groessenklasse;
                 $fk_aktivesschild,
                 $cname,
                 $gold,
-                $erfahrung,
+                $starterfahrung,
                 $aktlebenspunkte,
                 $lebenspunktemax,
                 $rasse,
+                $startausstrahlung,
+                $startbeweglichkeit,
+                $startintuition,
+                $startkonsitution,
+                $startmystik,
+                $startstaerke,
+                $startverstand,
+                $startwillenskraft,
                 $ausstrahlung,
                 $beweglichkeit,
                 $intuition,
@@ -344,7 +479,8 @@ return $groessenklasse;
                 $kettenwaffenskill,
                 $klingenwaffenskill,
                 $stangenwaffenskill,
-                $tick);
+                $tick,
+                $ausgegebeneerfahrung);
         return $charakter;
     }
 
@@ -440,9 +576,6 @@ return $groessenklasse;
         {
             $typ = 'fk_aktivesschild';
         }
-        html::echoPre($charakter_id . 'cid');
-        html::echoPre($gegenstands_id . 'gegid');
-        Html::echoPre($typ . ' Spalte');
         try
         {
             $dbh = Db::getConnection();
@@ -531,6 +664,25 @@ return $groessenklasse;
         }
     }  // aktualisiert Gold des Charakters - erwartet beim Aufruf einen mathematischen Operator, der der Datenbank übergeben wird
 
+    public static function updateErfahrung(int $cid, string $operator, int $erfahrung)
+    {
+
+        try {
+            $dbh = Db::getConnection();
+            //DB abfragen
+            $sql = 'UPDATE charakter
+                    SET gesamterfahrung = gesamterfahrung' . $operator . ' :erfahrung
+                    WHERE cid = :cid';
+            $sth = $dbh->prepare($sql);
+            $sth->bindParam('cid', $cid, PDO::PARAM_INT);
+            $sth->bindParam('erfahrung', $erfahrung, PDO::PARAM_INT);
+            $sth->execute();
+        }
+        catch (PDOException $e) {
+            echo 'Connection failed: ' . $e->getMessage();
+        }
+    }
+
     public static function getVTDBonusMalusbyGK($GK):int{
 
         switch ($GK) {
@@ -565,12 +717,20 @@ return $groessenklasse;
           'fk_aktivesschild'  => $this->getFkAktivesschild(),
           'cname'  => $this->getCname(),
           'gold'  => $this->getGold(),
-          'erfahrung'  => $this->getErfahrung(),
+          'erfahrung'  => $this->getGesamterfahrung(),
           'aktlebenspunkte'  => $this->getAktlebenspunkte(),
           'lebenspunktemax'  => $this->getLebenspunktemax(),
 
         //attribute
           'rasse'  => $this->getRasse(),
+                'startausstrahlung'  => $this->getStartausstrahlung(),
+                'startbeweglichkeit'  => $this->getStartbeweglichkeit(),
+                'startintuition'  => $this->getStartintuition(),
+                'startkonstitution'  => $this->getStartkonstitution(),
+                'startmystik'  => $this->getStartmystik(),
+                'startstaerke'  => $this->getStartstaerke(),
+                'startverstand'  => $this->getStartverstand(),
+                'startwillenskraft'  => $this->getStartwillenskraft(),
           'ausstrahlung'  => $this->getAusstrahlung(),
           'beweglichkeit'  => $this->getBeweglichkeit(),
           'intuition'  => $this->getIntuition(),
@@ -579,6 +739,7 @@ return $groessenklasse;
           'staerke'  => $this->getStaerke(),
           'verstand'  => $this->getVerstand(),
           'willenskraft'  => $this->getWillenskraft(),
+
           'handgemenge'  => $this->getHandgemengeskill(),
           'hiebwaffenskill'  => $this->getHiebwaffenskill(),
           'kettenwaffenskill'  => $this->getKettenwaffenskill(),
@@ -588,8 +749,23 @@ return $groessenklasse;
             ];
     }
 
+    public static function setAktuelleLebenspunkte($cid, $aktlebenspunkte)
+    {
+        try {
+            $dbh = Db::getConnection();
+            //DB abfragen
+            $sql = 'UPDATE charakter SET aktlebenspunkte = :aktlebenspunkte  WHERE cid = :cid';
+            $sth = $dbh->prepare($sql);
+            $sth->bindParam('cid', $cid, PDO::PARAM_INT);
+            $sth->bindParam('aktlebenspunkte', $aktlebenspunkte, PDO::PARAM_INT);
+            $sth->execute();
 
-    public static  function getWaffenfertigkeitswertaktuelleWaffe(string $waffenart,int $handgemengeskill, int $kettenwaffenskill, int $klingenwaffenskill,int $stangenwaffenskill, int $hiebwaffenskill):int
+        } catch (PDOException $e) {
+            echo 'Connection failed: ' . $e->getMessage();
+        }
+
+    }
+    public static function getWaffenfertigkeitswertaktuelleWaffe(string $waffenart,int $handgemengeskill, int $kettenwaffenskill, int $klingenwaffenskill,int $stangenwaffenskill, int $hiebwaffenskill):int
     {
 
 
@@ -612,5 +788,45 @@ return $groessenklasse;
     }
 
         return $fertwert;
+    }
+
+
+    public static function updateCharakter(int $cid,int $ausstrahlung, int $beweglichkeit, int $intuition, int $konstitution,
+                                   int $mystik, int $staerke, int $verstand, int $willenskraft, int $gesamterfahrung, int $ausgegebeneerfahrung)
+    {
+        try {
+            $dbh = Db::getConnection();
+            //DB abfragen
+            $sql = 'UPDATE  charakter 
+                    SET     willenskraft = :willenskraft,
+                            ausstrahlung = :ausstrahlung,
+                            beweglichkeit = :beweglichkeit,
+                            intuition = :intuition,
+                            konstitution = :konstitution,
+                            mystik = :mystik,
+                            staerke = :staerke,
+                            verstand = :verstand,
+                            gesamterfahrung = :gesamterfahrung,
+                            ausgegebeneerfahrung = :ausgegebeneerfahrung
+                     
+                    WHERE   cid = :cid';
+            $sth = $dbh->prepare($sql);
+            $sth->bindParam('cid', $cid, PDO::PARAM_INT);
+            $sth->bindParam('ausstrahlung', $ausstrahlung, PDO::PARAM_INT);
+            $sth->bindParam('beweglichkeit', $beweglichkeit, PDO::PARAM_INT);
+            $sth->bindParam('intuition', $intuition, PDO::PARAM_INT);
+            $sth->bindParam('konstitution', $konstitution, PDO::PARAM_INT);
+            $sth->bindParam('mystik', $mystik, PDO::PARAM_INT);
+            $sth->bindParam('staerke', $staerke, PDO::PARAM_INT);
+            $sth->bindParam('verstand', $verstand, PDO::PARAM_INT);
+            $sth->bindParam('willenskraft', $willenskraft, PDO::PARAM_INT);
+            $sth->bindParam('gesamterfahrung', $gesamterfahrung, PDO::PARAM_INT);
+            $sth->bindParam('ausgegebeneerfahrung', $ausgegebeneerfahrung, PDO::PARAM_INT);
+            $sth->execute();
+
+        } catch (PDOException $e) {
+            echo 'Connection failed: ' . $e->getMessage();
+        }
+
     }
 }

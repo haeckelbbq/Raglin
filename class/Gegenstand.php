@@ -3,15 +3,14 @@
 
 class Gegenstand
 {
+
     private int     $gegid;
     private string  $gegname;
     private string  $typ;
-
-
     private int     $kosten;
     private int     $einnehmbar;
 
-    public function __construct(int $gegid, string $gegname, string $typ, int $kosten, bool $einnehmbar)
+    public function __construct(int $gegid, string $gegname, string $typ, int $kosten, int $einnehmbar)
     {
         $this->gegid = $gegid;
         $this->gegname = $gegname;
@@ -20,9 +19,9 @@ class Gegenstand
         $this->einnehmbar = $einnehmbar;
     }
 
-    public function gettyp(): string
+    public function getTyp(): string
     {
-        return $this->gtyp;
+        return $this->typ;
     }
 
     public function getGegid(): int
@@ -43,6 +42,22 @@ class Gegenstand
     public function getEinnehmbar(): int
     {
         return $this->einnehmbar;
+    }
+
+    public static function deleteGegenstand($cgid)
+    {
+        try {
+            $dbh = Db::getConnection();
+
+            $sql = 'DELETE FROM charakter_gegenstand WHERE cgid = :cgid';
+            $sth = $dbh->prepare($sql);
+            $sth->bindParam('cgid', $cgid, PDO::PARAM_INT);
+            $sth->execute();
+        }
+    catch (PDOException $e)
+        {
+            echo 'Connection failed: ' . $e->getMessage();
+        }
     }
 
     public static function getGegenstandById($gegid)
@@ -113,6 +128,47 @@ class Gegenstand
             echo 'Connection failed: ' . $e->getMessage();
         }
         return $gegenstand;
+    }
+    public static function getGegenstandCgidByCharakterId($cid, $typ)
+    {
+        $spalte = '';
+
+                 if ($typ === 'Waffe')
+                 {
+                    $spalte = 'wid';
+                 }
+                 else if ($typ === 'Ruestung')
+                 {
+                     $spalte = 'rid';
+                 }
+
+                 else if ($typ === 'Schild')
+                 {
+                     $spalte = 'sid';
+                 }
+
+                else if ($typ === 'Gegenstand')
+                 {
+                     $spalte = 'gegid';
+                 }
+
+        try
+        {
+            $dbh = Db::getConnection();
+            //DB abfragen
+
+            $sql = 'SELECT cgid FROM charakter_gegenstand,' . $typ . '  WHERE fk_cid = :cid AND fk_gsid = ' . $spalte . ' AND :typ = gegenstandstyp';
+            $sth = $dbh->prepare($sql);
+            $sth->bindParam('cid', $cid, PDO::PARAM_INT);
+            $sth->bindParam('typ', $typ, PDO::PARAM_STR);
+            $sth->execute();
+            $cgids = $sth->fetchAll(PDO::FETCH_COLUMN);
+        }
+        catch (PDOException $e)
+        {
+            echo 'Connection failed: ' . $e->getMessage();
+        }
+        return $cgids;
     }
 
     public static function insertGegenstand(int $cid, string $gegenstandstyp, int $fk_gsid)

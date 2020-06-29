@@ -1,12 +1,13 @@
 <?php
 
-// Allgemeine Nächste Schritte: Kampfanzeige herstellen, Charakterwerte angemessen anzeigen lassen,
-//                              Gegner erzeugen, Werte ebenfalls in die View schaffen
-//                              sobald alle gebrauchten Informationen in der View vorhanden sind, anfangen den Kampf zu berechnen
-//                              Verbindungsdatenbank zwischen Charakter und Gegenständen konzipieren und einsetzbar machen
-//                              Nach erfolgreich absolviertem Kampf Drops errechnen (Gold, EP, Gegenstände) und für Persistenz derselben sorgen
+// Allgemeine Nächste Schritte: Kampfanzeige herstellen DONE, Charakterwerte angemessen anzeigen lassen DONE,
+//                              Gegner erzeugen DONE, Werte ebenfalls in die View schaffen DONE
+//                              sobald alle gebrauchten Informationen in der View vorhanden sind, anfangen den Kampf zu berechnen DONE
+//                              Verbindungsdatenbank zwischen Charakter und Gegenständen konzipieren und einsetzbar machen DONE
+//                              Nach erfolgreich absolviertem Kampf Drops errechnen (Gold, EP, Gegenstände) und für Persistenz derselben sorgen // Drops Gegenstände als letzter fehlender Schritt
 //                              Nach Abschluss dessen, überlegen wie man seine EP ausgeben kann und dafür Steuerelemente schaffen
-//                              Shopfunktion <- in spe
+//                              Shopfunktion detaillierter ausklügeln
+//                              LOOT UND QUEST
 
 
 
@@ -27,10 +28,12 @@ spl_autoload_register(function ($class){
 
 $id = $_REQUEST     ['id'] ?? 0;             // Ansteuerung der meisten ID's im laufenden Programm
 $cid = $_REQUEST    ['cid'] ?? 0;            // Ansteuerung der Charakter ID
+$gid = $_REQUEST    ['gid'] ?? 0;            // Ansteuerung der Gegner ID
+$cgid = $_REQUEST    ['cgid'] ?? 0;            // Ansteuerung der Gegner ID
 $typ = $_REQUEST    ['typ'] ?? '';           // Ansteuerung des Typs für Gegenstände (inkl. Waffen, Rüstungen & Schilde)
 $action = $_REQUEST ['action'] ?? '';        // steuert die Aktion die ausgeführt werden soll
-$area = $_REQUEST   ['area'] ?? '';          // steuert den Ort an dem etwas ausgeführt werden soll
-$kosten = $_REQUEST ['kosten'] ?? 0;
+$area = $_REQUEST  ['area'] ?? '';          // steuert den Ort an dem etwas ausgeführt werden soll
+$kosten = $_REQUEST['kosten'] ?? 0;
 //$wid = $_REQUEST    ['wid'] ?? 0;            // Ansteuerung der Waffen ID
 //$wid = $_REQUEST    ['rid'] ?? 0;            // Ansteuerung der Rüstung ID
 //$wid = $_REQUEST    ['sid'] ?? 0;            // Ansteuerung der Schild ID
@@ -41,25 +44,62 @@ $password2 = $_POST ['password2'] ?? '';     // Dient der Registrierung
 $name = $_POST      ['name'] ?? '';          // Dient Login (wird auch einmalig in anderem Zusammenhang verwendet
 
 
-// Übergabevariablen Charaktererstellung (+ Charaktername $POST['name']
 
+
+// Übergabevariablen Charaktererstellung (+ Charaktername $POST['name']
+$gesamterfahrung = $_REQUEST['gesamterfahrung'] ?? 0;
+$ausgegebeneerfahrung=$_REQUEST['ausgegebeneerfahrung']?? 0;
+$ausstrahlung = $_REQUEST['ausstrahlung'] ?? 0;
 $beweglichkeit = $_REQUEST['beweglichkeit'] ?? 0;
 $staerke = $_REQUEST['staerke'] ?? 0;
 $intuition = $_REQUEST['intuition'] ?? 0;
 $konstitution = $_REQUEST['konstitution'] ?? 0;
-$rasse = $_REQUEST['rasse'] ?? 0;
-$ausstrahlung = $_REQUEST['ausstrahlung'] ?? 0;
 $mystik = $_REQUEST['mystik'] ?? 0;
 $verstand = $_REQUEST['verstand'] ?? 0;
 $willenskraft = $_REQUEST['willenskraft'] ?? 0;
+$rasse = $_REQUEST['rasse'] ?? 0;
+$startausstrahlung=$_REQUEST['startausstrahlung'] ?? 0;
+$startbeweglichkeit=$_REQUEST['startbeweglichkeit'] ?? 0;
+$startintuition=$_REQUEST['startintuition'] ?? 0;
+$startkonstitution=$_REQUEST['startkonstitution'] ?? 0;
+$startmystik=$_REQUEST['startmystik'] ?? 0;
+$startstaerke=$_REQUEST['startstaerke'] ?? 0;
+$startverstand=$_REQUEST['startverstand'] ?? 0;
+$startwillenskraft=$_REQUEST['startwillenskraft'] ?? 0;
+$kosten=$_REQUEST['kosten'] ?? 0;
+
+// Übergabevariablen für den Kampf
+
+$gegnerklasse=$_REQUEST['gegnerklasse'] ?? 0;
+$aktlebenspunkte=$_REQUEST['aktlebenspunkte'] ?? 0;
 
 // Übergabevariablen für die Questarbeitung
 
+$frage = $_REQUEST['frage'] ?? '';
+$antwort1 = $_REQUEST['antwort1'] ?? '';
+$antwort2 = $_REQUEST['antwort2'] ?? '';
+$antwort3 = $_REQUEST['antwort3'] ?? '';
+$antwort4 = $_REQUEST['antwort4'] ?? '';
+$a1bool = $_REQUEST['abool1'] ?? '';
+$a2bool = $_REQUEST['abool2'] ?? '';
+$a3bool = $_REQUEST['abool3'] ?? '';
+$a4bool = $_REQUEST['abool4'] ?? '';
 $antwort = $_POST['antwort'] ?? 2;  // Wertet die Antwort im Questmodus aus, in der DB steht 1 für richtig und 0 für falsch. Deswegen Initialisierung mit der 2
-
 
 // Session & Controller - Start
 session_start();
+
+//$test = getimagesize ('css\IMG\scroll right.png');
+//Html::echoPre($test);
+
+// Bild mit PHP anzeigen lassen
+// header("Content-Type: image/jpg");
+// $bild = imagecreatefromjpeg('IMG/Fantasy.jpg');
+// imagejpeg($bild);
+
+
+
+
 switch ($action)
 {
 
@@ -126,7 +166,7 @@ switch ($action)
         }
         elseif ($area === 'kampf')
         {
-            //Kampf ist z.Z. Baustelle
+
             $user_id = $_SESSION['user_id'];
             $fkcharakter = User::getFkAktuellerCharakterFromUser($user_id);  // erfragt den aktiven Charakter des Users anhand des FK's zum Charakter
             $charakter =Charakter::getAktiverCharakter($user_id, $fkcharakter);  // erzeugt ein Charakter-Objekt mit User ID und fk zum Charakter
@@ -134,8 +174,6 @@ switch ($action)
             $schild = Charakter::getAktivesSchild($charakter->getFkAktivesschild());  // erzeugt ein Schild-Objekt das an den Charakter gebunden ist durch den FK
             $ruestung = Charakter::getAktiveRuestung($charakter->getFkAktiveruestung());  // erzeugt ein Ruestung-Objekt das an den Charakter gebunden ist durch den FK
             $gegner = Gegner::loadGegner();
-
-
             include 'view/kampfanzeige.php';
         }
         elseif ($area === '')
@@ -151,6 +189,7 @@ switch ($action)
         break;
     }
 
+
     case ($action === 'auswahl');
     {
         $user_id = $_SESSION['user_id'];
@@ -163,15 +202,56 @@ switch ($action)
         }
         break;
     }
+
     case ($action === 'update');
     {
         $user_id = $_SESSION['user_id'];
         if ($area === 'ausruestung')        {
 
-            $cid = User::getFkAktuellerCharakterFromUser($user_id);
+            $cid = User::getFkAktuellerCharakterFromUser($user_id);  // fragt den aktuellen Charakter des Users ab
             Charakter::updateAusruestung($cid, $typ, $id);
             include 'view/ausruestungsanzeige.php';
         }
+
+        else if ($area === 'charakter')
+        {
+
+            $user_id = $_SESSION['user_id'];
+            $fkcharakter = User::getFkAktuellerCharakterFromUser($user_id);  // erfragt den aktiven Charakter des Users anhand des FK's zum Charakter
+            Charakter::updateCharakter($fkcharakter, $ausstrahlung, $beweglichkeit, $intuition,$konstitution,$mystik,$staerke,$verstand,$willenskraft,$gesamterfahrung,$ausgegebeneerfahrung);
+            $charakter =Charakter::getAktiverCharakter($user_id, $fkcharakter);  // erzeugt ein Charakter-Objekt mit User ID und fk zum Charakter
+            include 'view/charakterbogenanzeige.php';
+        }
+        else if ($area === 'kampfsieg')
+        {
+            Kampf::getDrops($cid, $gid, $gegnerklasse);
+            Charakter::setAktuelleLebenspunkte($cid, $aktlebenspunkte);
+            include 'view/aktivwerdenanzeige.php';
+        }
+        else if ($area === 'kampfniederlage')
+        {
+            Charakter::setAktuelleLebenspunkte($cid, $aktlebenspunkte);
+            include 'view/aktivwerdenanzeige.php';
+        }
+        break;
+    }
+    case ($action === 'heilen');
+    {
+            $user_id = $_SESSION['user_id'];
+            $cid = User::getFkAktuellerCharakterFromUser($user_id);
+            $charakter = Charakter::getAktiverCharakter($user_id, $cid);
+            if ($charakter->getAktlebenspunkte() + 30 > $charakter->getLebenspunktemax())
+            {
+                $heilung =$charakter->getLebenspunktemax();
+            }
+            else
+            {
+                $heilung = $charakter->getAktlebenspunkte() + 30;
+            }
+            Charakter::setAktuelleLebenspunkte($cid, $heilung);
+            //Charakter::updateLebenspunkte()
+            Gegenstand::deleteGegenstand($cgid);
+            include 'view/inventaranzeige.php';
         break;
     }
     case ($action === 'logout');
@@ -183,20 +263,30 @@ switch ($action)
     case ($action === 'insert');
     {
         if ($area === 'charakter')
-        {
-            $user_id = $_SESSION['user_id'];
 
+        {
+
+            $user_id = $_SESSION['user_id'];
             $charaktere = Charakter::getCharakterByUserId($user_id);  // Charaktere werden hier aus der Datenbank abgefragt um zu verhindern
             if (count($charaktere ) > 14)                             // dass ein einzelner User mehr als 15 Charaktere verwalten darf
             {
                 echo 'Maximal 15 Charaktere erlaubt';
+
             }
             else
             {
-                Charakter::insertCharakter($user_id, $name,$rasse, $ausstrahlung,$beweglichkeit, $intuition, $konstitution,$mystik, $staerke, $verstand, $willenskraft);  // Werte kommen vom User aus der Charakterbogenanzeige
+                Charakter::insertCharakter($user_id, $name,$rasse,$ausstrahlung, $beweglichkeit, $intuition, $konstitution,
+                    $mystik, $staerke, $verstand, $willenskraft,$ausstrahlung, $beweglichkeit, $intuition, $konstitution,
+                    $mystik, $staerke, $verstand, $willenskraft);  // Werte kommen vom User aus der Charakterbogenanzeige    // und werden in die Datenbank gespeichert
+
+
                 $letzterCharakter=Charakter::getNeusterCharakter();
                 Fertigkeiten::insertFertigkeitsbogen($letzterCharakter);
-            }                                                                                                                                                             // und werden in die Datenbank gespeichert
+                $charaktere = Charakter::getCharakterByUserId($user_id);
+                User::updateAktiverCharakter($user_id, $letzterCharakter);
+            }
+            include 'view/startmenueanzeige.php';
+
 
         }
         elseif ($area === 'user')
@@ -223,6 +313,13 @@ switch ($action)
                 }
             }
             break;
+        }
+        elseif ($area === 'quest')
+        {
+
+            $user_id = $_SESSION['user_id'];
+            Quest::insertQuest($frage, $antwort1, $antwort2, $antwort3, $antwort4 ,$a1bool, $a2bool, $a3bool,  $a4bool);
+            include 'view/questanzeige.php';
         }
         elseif($area === 'shop')
         {
@@ -258,6 +355,13 @@ switch ($action)
             $charaktere = Charakter::getCharakterByUserId($user_id);
             include 'view/charakterbogenanzeige.php';
         }
+        else if ($area === 'inventar')
+        {
+            $cid = User::getFkAktuellerCharakterFromUser($user_id);
+            Charakter::updateGold($cid, '+', round($kosten / 3, 0));
+            Gegenstand::deleteGegenstand($cgid);
+            include 'view/inventaranzeige.php';
+        }
         break;
     }
     case ($action === 'checklogin');
@@ -279,5 +383,5 @@ switch ($action)
     }
 
     default:
-        break;
+        include 'view\loginanzeige.php';
 }

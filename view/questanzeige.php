@@ -1,32 +1,45 @@
 <?php
 include 'view/module/htmlbegin.php';
+
 $quest = Quest::getQuestFromDatabase();
+$rnd = rand(1, count($quest) -1);
+$quest = $quest[$rnd];
 
 if(isset($user_id) && User::getById($user_id)->getRolle() === 'admin')
 {
-    echo 'Geschützter Adminbereich<br>Hier soll die Möglichkeit entstehen, sich Quests auszudenken<br>5 Textfelder davon eines für den Questtext<br> an den 4 kleinen soll jeweils ein string für die antwort<br>anhand der Radiobuttons der Wert 0 oder 1 hängen ob die Antwort falsch oder richtig ist<br>Und so soll es in der DB verwaltet werden ' ;
     ?>
     <form action="index.php" method="post">
+        <input type="hidden" name="action" value="insert">
+        <input type="hidden" name="area" value="quest">
+
         <table>
             <tr>
-            <td>Quest erstellen</td>
+            <h2>Quest erstellen</h2>
             <td>
-                <input type = "radio" name="antwort" value="<?php ?>">
-                <label for = "radio1">checken</label>
-                <input type = "radio" name="antwort">
-                <label for = "radio1">checken</label>
-                <input type = "radio" name="antwort">
-                <label for = "radio1">checken</label>
-                <input type = "radio" name="antwort">
-                <label for = "radio1">checken</label>
-
+                <textarea rows="10" cols="50" name="frage"></textarea>
+                <label for = "frage">Frage</label><br><br>
+                <textarea rows="3" cols="50" name="antwort1"></textarea>
+                <input type = "radio" name="a1bool">
+                <label for = "radio">Antwort</label><br><br>
+                <textarea rows="3" cols="50" name="antwort2"></textarea>
+                <input type = "radio" name="abool2">
+                <label for = "radio">Antwort</label><br><br>
+                <textarea rows="3" cols="50" name="antwort3"></textarea>
+                <input type = "radio" name="abool3">
+                <label for = "radio">Antwort</label><br><br>
+                <textarea rows="3" cols="50" name="antwort4"></textarea>
+                <input type = "radio" name="abool4">
+                <label for = "radio">Antwort</label>
             </td>
         </tr>
         </table>
+        <td><input type="submit" name="submitname" value="Antwort abgeben"></td>
     </form>
+
 <?php
 
 }
+else
 ?>
 
     <form action="index.php" method="post">

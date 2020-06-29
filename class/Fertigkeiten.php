@@ -1,10 +1,10 @@
 <?php
 
 
-class Fertigkeiten
+class Fertigkeiten implements JsonSerializable
 {
     private int $fk_cid;
-    private int $akrobatik;
+    private int $akrobatik ;
     private int $alchemie ;
     private int $anfuehren ;
     private int $arkanekunde ;
@@ -63,6 +63,8 @@ class Fertigkeiten
         $this->wahrnehmung = $wahrnehmung;
         $this->zaehigkeit = $zaehigkeit;
     }
+
+
 
     public function getFkCid(): int
     {
@@ -204,6 +206,94 @@ class Fertigkeiten
         return $this->zaehigkeit;
     }
 
+    public static function getAttributezuFert (string $fertigkeit):array
+    {
+
+        switch ($fertigkeit) {
+            case "akrobatik":
+                $AttributezuFert = ["BEW", "STA"];
+                break;
+            case "alchemie":
+                $AttributezuFert = ["MYS", "VER"];
+                break;
+            case "anfuehren":
+                $AttributezuFert = ["AUS", "WIL"];
+                break;
+            case "arkanekunde":
+                $AttributezuFert = ["MYS", "VER"];
+                break;
+            case "athletik":
+                $AttributezuFert = ["BEW", "STA"];
+                break;
+            case "darbietung":
+                $AttributezuFert = ["AUS", "WIL"];
+                break;
+            case "diplomatie":
+                $AttributezuFert = ["AUS", "VER"];
+                break;
+            case "edelhandwerk":
+                $AttributezuFert = ["INT", "VER"];
+                break;
+            case "empathie":
+                $AttributezuFert = ["INT", "VER"];
+                break;
+            case "entschlossenheit":
+                $AttributezuFert = ["AUS", "WIL"];
+                break;
+            case "fingerfertigkeit":
+                $AttributezuFert = ["AUS", "BEW"];
+                break;
+            case "geschichteundmythen":
+                $AttributezuFert = ["MYS", "VER"];
+                break;
+            case "handwerk":
+                $AttributezuFert = ["KON", "VER"];
+                break;
+            case "heilkunde":
+                $AttributezuFert = ["INT", "VER"];
+                break;
+            case "heimlichkeit":
+                $AttributezuFert = ["BEW", "INT"];
+                break;
+            case "jagdkunst":
+                $AttributezuFert = ["KON", "VER"];
+                break;
+            case "laenderkunde":
+                $AttributezuFert = ["INT", "VER"];
+                break;
+            case "naturkunde":
+                $AttributezuFert = ["INT", "VER"];
+                break;
+            case "redegewandtheit":
+                $AttributezuFert = ["AUS", "WIL"];
+                break;
+            case "schloesserundfallen":
+                $AttributezuFert = ["INT", "BEW"];
+                break;
+            case "schwimmen":
+                $AttributezuFert = ["STA", "KON"];
+                break;
+            case "seefahrt":
+                $AttributezuFert = ["BEW", "KON"];
+                break;
+            case "strassenkunde":
+                $AttributezuFert = ["AUS", "INT"];
+                break;
+            case "tierfuehrung":
+                $AttributezuFert = ["AUS", "BEW"];
+                break;
+            case "ueberleben":
+                $AttributezuFert = ["INT", "KON"];
+                break;
+            case "wahrnehmung":
+                $AttributezuFert = ["INT", "WIL"];
+                break;
+            case "zaehigkeit":
+                $AttributezuFert = ["KON", "WIL"];
+                break;
+        }return $AttributezuFert;
+    }
+
     public static function getFertigkeitsbogenFromDatabase(int $cid): array  // holt alle vorhandenen Waffen aus der Waffendatenbank
     {
         try {
@@ -237,13 +327,10 @@ class Fertigkeiten
         try {
             $dbh = Db::getConnection();
             //DB abfragen
-            $sql = 'INSERT INTO fertigkeitsbogen(fk_cid)
+            $sql = 'INSERT INTO fertigkeitenbogen(fk_cid)
                         VALUES(:cid)';
             $sth = $dbh->prepare($sql);;
-            $sth->bindParam('cid', $cid, PDO::PARAM_STR);
-
-
-
+            $sth->bindParam('cid', $cid, PDO::PARAM_INT);
             // Überlegung: Bei der Charaktererstellung evtl. Defaultwerte in die fk_s eintragen evtl auch Startgold? Wenn dann hier.
             // Aktuelle Lebenspunkte? reicht denk ich im Formular verwaltet zu werden, denn die sind ohnehin nur für die Kampfsequenz "temporär" vorhanden;
             // Parameterbinding einbauen nach der Entscheidungsfindung.
@@ -331,5 +418,43 @@ class Fertigkeiten
             $wahrnehmung,
             $zaehigkeit);
         return $fertigkeiten;
+    }
+
+
+
+    public function jsonSerialize()
+    {
+        return
+            [
+                'fk_cid'  =>  $this->getFkCid(),
+                'akrobatik'  =>  $this->getAkrobatik(),
+                'alchemie'  => $this->getAlchemie(),
+                'anfuehren'  => $this->getAnfuehren(),
+                'arkanekunde'  => $this->getArkanekunde(),
+                'athletik'  => $this->getAthletik(),
+                'darbietung'  => $this->getDarbietung(),
+                'diplomatie'  => $this->getDiplomatie(),
+                'edelhandwerk'  => $this->getEdelhandwerk(),
+                'empathie'  => $this->getEmpathie(),
+                'entschlossenheit'  => $this->getEntschlossenheit(),
+                'fingerfertigkeit'  => $this->getFingerfertigkeit(),
+                'geschichteundmythen'  => $this->getGeschichteundmythen(),
+                'handwerk'  => $this->getHandwerk(),
+                'heilkunde'  => $this->getHeilkunde(),
+                'heimlichkeit'  => $this->getHeimlichkeit(),
+                'jagdkunst'  => $this->getJagdkunst(),
+                'laenderkunde'  => $this->getLaenderkunde(),
+                'naturkunde'  => $this->getNaturkunde(),
+                'redegewandtheit'  => $this->getRedegewandtheit(),
+                'schloesserundfallen'  => $this->getSchloesserundfallen(),
+                'schwimmen'  => $this->getSchwimmen(),
+                'seefahrt'  => $this->getSeefahrt(),
+                'strassenkunde'  => $this->getStrassenkunde(),
+                'tierfuehrung'  => $this->getTierfuehrung(),
+                'ueberleben'  => $this->getUeberleben(),
+                'wahrnehmung'  => $this->getWahrnehmung(),
+                'zaehigkeit'  => $this->getZaehigkeit()
+
+            ];
     }
 }

@@ -6,8 +6,9 @@ $ruestungen = Ruestung::getRuestungenFromDatabase();
 $schilde = Schild::getSchildeFromDatabase();
 $gegenstaende=Gegenstand::getGegenstaendeFromDatabase();
 ?>
+    <br>
 <script>
-alert
+
 </script>
 <style>
    td {
@@ -15,6 +16,9 @@ alert
   border-collapse: collapse;
 }
 </style>
+<div>
+    <p id = "kaufen"></p>
+</div>
 <br>
     <h2>Coras kleiner Laden</h2>
 

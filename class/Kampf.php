@@ -20,4 +20,33 @@ class Kampf
 
      return $wuerfelergebnis=[($wuerfelergebnis1+$wuerfelergebnis2),$wuerfelergebnis1,$wuerfelergebnis2];
     }
+
+    public static function getDrops($cid, $gid, $gegnerklasse)
+    {
+        $gold = 3;
+        $erfahrung = 2;
+
+        if ($gegnerklasse = 2)
+        {
+            $gold = $gold * $gegnerklasse;
+            $erfahrung = $erfahrung * $gegnerklasse;
+        }
+        else if ($gegnerklasse = 3)
+        {
+            $gold = $gold * $gegnerklasse;
+            $erfahrung = $erfahrung * $gegnerklasse;
+        }
+        else if ($gegnerklasse = 4)
+        {
+            $gold = $gold * $gegnerklasse;
+            $erfahrung = $erfahrung * $gegnerklasse;
+        }
+        else if ($gegnerklasse = 5)
+        {
+            $gold = $gold * $gegnerklasse;
+            $erfahrung = $erfahrung * $gegnerklasse;
+        }
+        Charakter::updateGold($cid, '+', $gold);
+        Charakter::updateErfahrung($cid, '+', $erfahrung);
+    }
 }

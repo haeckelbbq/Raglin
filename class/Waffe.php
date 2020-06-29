@@ -156,8 +156,6 @@ class Waffe implements JsonSerializable
             $sth->execute();
             $waffen = $sth->fetchAll(PDO::FETCH_FUNC, "Waffe::buildFromPDO");
 
-
-
         } catch (PDOException $e)
         {
             echo 'Connection failed: ' . $e->getMessage();

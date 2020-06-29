@@ -15,12 +15,13 @@
 </head>
 <style>
     a:link {
-        color: goldenrod;
+        color: black;
         background-color: transparent;
         text-decoration: none;
     }
 </style>
 <body>
+</body>
 <header>
     Willkommen in der mystischen Welt von Raglin!
 </header>
@@ -33,6 +34,7 @@
 
         $cid = User::getFkAktuellerCharakterFromUser($user_id); //wenn fk_aktivercharakter = 0 ist, hat der User keinen ausgewählten Charakter.
                                                                 // 0 = default
+
 
         // ist ein Charakter vorhanden, ist die Charakter ID > 0
         if($cid !=0)
@@ -57,7 +59,7 @@
 
 <nav>
 <?php
-if(isset($user_id) && User::getById($user_id)->getRolle() === 'regUser')  //Der <nav>-Bereich ändert sich in dem die Rolle des Users aus der DB abgefragt wird.
+if(isset($user_id) && User::getById($user_id)->getRolle() === 'regUser' && $area !== 'kampf')  //Der <nav>-Bereich ändert sich in dem die Rolle des Users aus der DB abgefragt wird.
 {                                                                         //siehe loadNavForReguser() / loadNavForAdmin() / loadNavForCustomer
     Html::loadNavForReguser();
 }

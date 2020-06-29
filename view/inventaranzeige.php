@@ -13,6 +13,12 @@ $waffen = Waffe::getWaffenByCharakterId($cid);
 $schilde  = Schild::getSchildeByCharakterId($cid);
 $ruestungen = Ruestung::getRuestungByCharakterId($cid);
 $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
+$gegenstaendeCgids = Gegenstand::getGegenstandCgidByCharakterId($cid, 'Gegenstand');
+$waffenCgids = Gegenstand::getGegenstandCgidByCharakterId($cid, 'Waffe');
+$ruestungenCgids = Gegenstand::getGegenstandCgidByCharakterId($cid, 'Ruestung');
+$schildeCgids = Gegenstand::getGegenstandCgidByCharakterId($cid, 'Schild');
+
+
 
 
 ?>
@@ -33,6 +39,7 @@ $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
     <th>Attribut 1</th>
     <th>Attribut 2</th>
     <th>Schaden</th>
+    <th>Verkaufswert</th>
     </thead>
     <tbody>
     <?php for ($i = 0; $i < count($waffen); $i++)
@@ -46,8 +53,11 @@ $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
             <?php echo Anzeigeformat::formatSchaden( $waffen[$i]->getwuerfelanzahl()
                 ,$waffen[$i]->getWuerfelart()
                 ,$waffen[$i]->getSchadensbonus());?></td>
+        <td style="text-align:center"><?php echo round( $waffen[$i]->getKosten() / 3,0); ?></td>
+        <td><a href="index.php?cgid=<?php echo $waffenCgids[$i]?>&action=delete&area=inventar&kosten=<?php echo $waffen[$i]->getKosten();?>"><button>Verkaufen</button></a></td>
     <?php }
     ?>
+
 
     </tbody>
 </table>
@@ -61,6 +71,7 @@ $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
     <th>Schadensreduktion</th>
     <th>Tickzuschlag</th>
     <th>Behinderung</th>
+    <th>Verkaufswert</th>
     </thead>
     <tbody>
     <?php for ($i = 0; $i < count($ruestungen); $i++)
@@ -72,6 +83,10 @@ $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
             <td style="text-align:center"><?php echo $ruestungen[$i]->getSchadensreduktion(); ?></td>
             <td style="text-align:center"><?php echo $ruestungen[$i]->getTickzuschlag(); ?></td>
             <td style="text-align:center"><?php echo $ruestungen[$i]->getBehinderung(); ?></td>
+            <td style="text-align:center"><?php echo round( $ruestungen[$i]->getKosten() / 3,0); ?></td>
+
+            <td><a href="index.php?cgid=<?php echo $ruestungenCgids[$i]?>&action=delete&area=inventar&kosten=<?php echo $ruestungen[$i]->getKosten();?>"><button>Verkaufen</button></a></td>
+
         </tr>
     <?php }
     ?>
@@ -86,6 +101,7 @@ $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
     <th>Schilde</th>
     <th>Verteidigung</th>
     <th>Reduktion</th>
+    <th>Verkaufswert</th>
     </thead>
     <tbody>
     <?php for ($i = 0; $i < count($schilde); $i++)
@@ -95,7 +111,12 @@ $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
             <td style="text-align:center"><?php echo $schilde[$i]->getSname(); ?></td>
             <td style="text-align:center"><?php echo $schilde[$i]->getVerteidigungsbonus(); ?></td>
             <td style="text-align:center"><?php echo $schilde[$i]->getSchadensreduktion(); ?></td>
+            <td style="text-align:center"><?php echo round( $schilde[$i]->getKosten() / 3,0); ?></td>
+            <td><a href="index.php?cgid=<?php echo $schildeCgids[$i]?>&action=delete&area=inventar&kosten=<?php echo $schilde[$i]->getKosten();?>"><button>Verkaufen</button></a></td>
+
         </tr>
+
+
     <?php }
     ?>
 
@@ -107,6 +128,8 @@ $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
 <table cellspacing="0">
     <thead>
     <th>Gegenstände</th>
+    <th>Heilwert</th>
+    <th>Verkaufswert</th>
     </thead>
     <tbody>
     <?php for ($i = 0; $i < count($gegenstaende); $i++)
@@ -114,6 +137,11 @@ $gegenstaende = Gegenstand::getGegenstandeByCharakterId($cid);
         ?>
         <tr>
             <td style="text-align:center"><?php echo $gegenstaende[$i]->getGegname(); ?></td>
+            <td style="text-align:center">30</td>
+            <td style="text-align:center"><?php echo round( $gegenstaende[$i]->getKosten() / 3,0); ?></td>
+            <td><a href="index.php?cgid=<?php echo $gegenstaendeCgids[$i]?>&action=heilen&area=inventar"><button>Heilen</button></a></td>
+            <td><a href="index.php?cgid=<?php echo $gegenstaendeCgids[$i]?>&action=delete&area=inventar&kosten=<?php echo $gegenstaende[$i]->getKosten();?>"><button>Verkaufen</button></a></td>
+
         </tr>
     <?php }
     ?>

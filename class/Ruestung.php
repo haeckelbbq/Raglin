@@ -1,7 +1,7 @@
 <?php
 
 
-class Ruestung
+class Ruestung implements JsonSerializable
 {
     private int     $rid;
     private string  $rname;
@@ -130,5 +130,22 @@ class Ruestung
     public function getBehinderung(): int
     {
         return $this->behinderung;
+    }
+
+    public function jsonSerialize()
+    {
+        return
+            [
+                'Rid' => $this->getRid(),
+                'Rname' => $this->getRname(),
+                'typ' => $this->getTyp(),
+                'verteidigungsbonus' => $this->getVerteidigungsbonus(),
+                'schadensreduktion' => $this->getSchadensreduktion(),
+                'kosten' => $this->getKosten(),
+                'tickzuschlag' => $this->getTickzuschlag(),
+                'behinderung' => $this->getBehinderung(),
+
+
+            ];
     }
 }

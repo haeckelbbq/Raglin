@@ -23,8 +23,11 @@ public static  function formatSchaden(int $wuerfelanz,int $wuerfelart,int $schad
     return $schadenanzeige;
 }
 
-    public static  function formatAttributAbkuerzung(string $abk, int $beweglichkeit, int $intuition, int $konstitution, int $staerke):int
+    public static  function formatAttributAbkuerzung(string $abk,int $ausstrahlung, int $beweglichkeit, int $intuition, int $konstitution, int $mystik, int $staerke, int $verstand, int $willenskraft):int
     {switch ($abk) {
+        case "AUS":
+            $wert=$ausstrahlung;
+            break;
         case "BEW":
             $wert=$beweglichkeit;
             break;
@@ -34,10 +37,18 @@ public static  function formatSchaden(int $wuerfelanz,int $wuerfelart,int $schad
         case "KON":
             $wert=$konstitution;
             break;
+        case "MYS":
+            $wert=$mystik;
+            break;
         case "STA":
             $wert=$staerke;
             break;
-
+        case "VER":
+            $wert=$verstand;
+            break;
+        case "WIL":
+            $wert=$willenskraft;
+            break;
 
 
 

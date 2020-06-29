@@ -12,9 +12,73 @@ class Gegner implements JsonSerializable
     private int     $gegnerklasse;
     private int     $initiative;
     private int     $tickzuschlag;
-    private int     $wuerfelanzahlahl;
+    private int     $wuerfelanzahl;
     private int     $wuerfelart;
     private int     $schadensbonus;
+    private string  $savedrop;
+    private string  $drop1;
+    private string  $drop2;
+
+    /**
+     * Gegner constructor.
+     * @param int $gid
+     * @param string $gname
+     * @param int $lebenspunkte
+     * @param int $verteidigung
+     * @param int $schadensreduktion
+     * @param int $angriffsbonus
+     * @param int $gegnerklasse
+     * @param int $initiative
+     * @param int $tickzuschlag
+     * @param int $wuerfelanzahl
+     * @param int $wuerfelart
+     * @param int $schadensbonus
+     * @param string $savedrop
+     * @param string $drop1
+     * @param string $drop2
+     */
+    public function __construct(int $gid, string $gname, int $lebenspunkte, int $verteidigung, int $schadensreduktion, int $angriffsbonus, int $gegnerklasse, int $initiative, int $tickzuschlag, int $wuerfelanzahl, int $wuerfelart, int $schadensbonus, string $savedrop, string $drop1, string $drop2)
+    {
+        $this->gid = $gid;
+        $this->gname = $gname;
+        $this->lebenspunkte = $lebenspunkte;
+        $this->verteidigung = $verteidigung;
+        $this->schadensreduktion = $schadensreduktion;
+        $this->angriffsbonus = $angriffsbonus;
+        $this->gegnerklasse = $gegnerklasse;
+        $this->initiative = $initiative;
+        $this->tickzuschlag = $tickzuschlag;
+        $this->wuerfelanzahl = $wuerfelanzahl;
+        $this->wuerfelart = $wuerfelart;
+        $this->schadensbonus = $schadensbonus;
+        $this->savedrop = $savedrop;
+        $this->drop1 = $drop1;
+        $this->drop2 = $drop2;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSavedrop(): string
+    {
+        return $this->savedrop;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDrop1(): string
+    {
+        return $this->drop1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDrop2(): string
+    {
+        return $this->drop2;
+    }
 
     /**
      * Gegner constructor.
@@ -31,21 +95,7 @@ class Gegner implements JsonSerializable
      * @param int $wuerfelart
      * @param int $schadensbonus
      */
-    public function __construct(int $gid, string $gname, int $lebenspunkte, int $verteidigung, int $schadensreduktion, int $angriffsbonus, int $gegnerklasse, int $initiative, int $tickzuschlag, int $wuerfelanzahlahl, int $wuerfelart, int $schadensbonus)
-    {
-        $this->gid = $gid;
-        $this->gname = $gname;
-        $this->lebenspunkte = $lebenspunkte;
-        $this->verteidigung = $verteidigung;
-        $this->schadensreduktion = $schadensreduktion;
-        $this->angriffsbonus = $angriffsbonus;
-        $this->gegnerklasse = $gegnerklasse;
-        $this->initiative = $initiative;
-        $this->tickzuschlag = $tickzuschlag;
-        $this->wuerfelanzahlahl = $wuerfelanzahlahl;
-        $this->wuerfelart = $wuerfelart;
-        $this->schadensbonus = $schadensbonus;
-    }
+
 
 
     public function getInitiative(): int
@@ -126,15 +176,15 @@ class Gegner implements JsonSerializable
     public static function buildFromPDO(int $gid, string  $gname, int $lebenspunkte, int $verteidigung,
                                         int $schadensreduktion, int $angriffsbonus, int $gegnerklasse,
                                         int $initiative, int $tickzuschlag, int $wuerfelanzahl,int $wuerfelart,
-                                        int  $schadensbonus) : Gegner // buildFromPDO ruft den Klassenkonstuktor bei der Datenbankabfrage auf und erzeugt pro Tupel ein eigenes Objekt
+                                        int  $schadensbonus,string $savedrop,string $drop1,string $drop2) : Gegner // buildFromPDO ruft den Klassenkonstuktor bei der Datenbankabfrage auf und erzeugt pro Tupel ein eigenes Objekt
     {
-        $gegner = new Gegner($gid, $gname, $lebenspunkte, $verteidigung,$schadensreduktion, $angriffsbonus,$gegnerklasse, $initiative, $tickzuschlag, $wuerfelanzahl, $wuerfelart, $schadensbonus);
+        $gegner = new Gegner($gid, $gname, $lebenspunkte, $verteidigung,$schadensreduktion, $angriffsbonus,$gegnerklasse, $initiative, $tickzuschlag, $wuerfelanzahl, $wuerfelart, $schadensbonus,$savedrop, $drop1, $drop2);
         return $gegner;
     }
 
     public function getWuerfelanzahl(): int
     {
-        return $this->wuerfelanzahlahl;
+        return $this->wuerfelanzahl;
     }
 
     public function getWuerfelart(): int
@@ -280,15 +330,18 @@ class Gegner implements JsonSerializable
             [
                 'gname'  =>  $this->getGname(),
                 'lebenspunkte'  =>  $this->getLebenspunkte(),
-                'verteidung'  => $this->getVerteidigung(),
+                'verteidigung'  => $this->getVerteidigung(),
                 'schadensreduktion'  => $this->getSchadensreduktion(),
                 'angriffsbonus'  => $this->getAngriffsbonus(),
                 'gegnerklasse'  => $this->getGegnerklasse(),
                 'initiative'  => $this->getInitiative(),
                 'tickzuschlag'  => $this->getTickzuschlag(),
-                'wuerfelanzahlahl'  => $this->getWuerfelanzahl(),
+                'wuerfelanzahl'  => $this->getWuerfelanzahl(),
                 'wuerfelart'  => $this->getWuerfelart(),
-                'schadensbonus'  => $this->getSchadensbonus()
+                'schadensbonus'  => $this->getSchadensbonus(),
+                'savedrop'=>$this->getSavedrop() ,
+                'drop1'=>$this->getDrop1(),
+                'drop2'=>$this->getDrop2()
             ];
     }
 }

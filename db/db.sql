@@ -12,9 +12,17 @@ CREATE TABLE `charakter` (
                              `fk_aktivesschild`     int(11) NOT NULL,
                              `cname`                varchar(20) NOT NULL,
                              `gold`                 int(11) NOT NULL,
-                             `erfahrung`            int(11) NOT NULL,
+                             `gesamterfahrung`      int(11) NOT NULL,
                              `aktlebenspunkte`      int(11) NOT NULL,
                              `lebenspunktemax`      int(11) NOT NULL,
+                             `startausstrahlung`    int(11) NOT NULL,
+                             `startbeweglichkeit`   int(11) NOT NULL,
+                             `startintuition`       int(11) NOT NULL,
+                             `startkonstitution`    int(11) NOT NULL,
+                             `startmystik`          int(11) NOT NULL,
+                             `startstaerke`         int(11) NOT NULL,
+                             `startverstand`        int(11) NOT NULL,
+                             `startwillenskraft`    int(11) NOT NULL,
                              `ausstrahlung`         int(11) NOT NULL,
                              `beweglichkeit`        int(11) NOT NULL,
                              `intuition`            int(11) NOT NULL,
@@ -28,8 +36,9 @@ CREATE TABLE `charakter` (
                              `kettenwaffenskill`    int(11) NOT NULL,
                              `klingenwaffenskill`   int(11) NOT NULL,
                              `stangenwaffenskill`   int(11) NOT NULL,
-                             `tick`                 int(11) NOT NULL,
-                             `rasse`                varchar(20) NOT NULL
+                             `tick`                 float NOT NULL,
+                             `rasse`                varchar(20) NOT NULL,
+                             `ausgegebeneerfahrung` int(11) NOT NULL
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -71,6 +80,9 @@ CREATE TABLE `fertigkeitenbogen`(
 -- Tabellenstruktur für Tabelle `ruestung`
 --
 
+ALTER TABLE fertigkeitenbogen
+    ADD FOREIGN KEY (fk_cid) REFERENCES charakter(cid);
+
 CREATE TABLE `ruestung` (
                             `rid`                   int PRIMARY KEY AUTO_INCREMENT NOT NULL,
                             `rname`                 varchar(15) NOT NULL,
@@ -95,8 +107,8 @@ CREATE TABLE `gegner` (
                             `schadensreduktion`     int(11) NOT NULL,
                             `angriffsbonus`         int(11) NOT NULL,
                             `gegnerklasse`          int(11) NOT NULL,
-                            `tickzuschlag`          int(11) NOT NULL,
                             `initative`             int(11) NOT NULL,
+                            `tickzuschlag`          int(11) NOT NULL,
                             `wuerfelanzahl`         int(11) NOT NULL,
                             `wuerfelart`            int(11) NOT NULL,
                             `schadensbonus`         int(11) NOT NULL,
@@ -197,23 +209,33 @@ CREATE TABLE `quest` (
 
 COMMIT;
 
-INSERT INTO gegner(gid,gname,lebenspunkte,verteidigung, schadensreduktion,angriffsbonus,gegnerklasse,initative,tickzuschlag,wuerfelanzahl,wuerfelart,schadensbonus)
-VALUES (NULL, 'Wolf', 18 , 20, 0,12,1,5,8,1, 6,4);
+INSERT INTO gegner(gid,gname,lebenspunkte,verteidigung, schadensreduktion,angriffsbonus,gegnerklasse,initative,tickzuschlag,wuerfelanzahl,wuerfelart,schadensbonus,savedrop,drop1,drop2)
+VALUES (NULL, 'Wolf', 18 , 20, 0,12,1,5,8,1, 6,4,'zaehes Fleisch','Wolfsfell','Wolfszahn');
 
-INSERT INTO gegner(gid,gname,lebenspunkte,verteidigung, schadensreduktion,angriffsbonus,gegnerklasse,initative,tickzuschlag,wuerfelanzahl,wuerfelart,schadensbonus)
-VALUES (NULL, 'Wildschwein', 21 , 18, 0,12,1,7,8,1, 6, 4);
+INSERT INTO gegner(gid,gname,lebenspunkte,verteidigung, schadensreduktion,angriffsbonus,gegnerklasse,initative,tickzuschlag,wuerfelanzahl,wuerfelart,schadensbonus,savedrop,drop1,drop2)
+VALUES (NULL, 'Wildschwein', 21 , 18, 0,12,1,7,8,1, 6, 4, 'zaehes Fleisch', 'Wildscheinfell', 'Hauer');
 
+INSERT INTO gegner(gid,gname,lebenspunkte,verteidigung, schadensreduktion,angriffsbonus,gegnerklasse,initative,tickzuschlag,wuerfelanzahl,wuerfelart,schadensbonus,savedrop,drop1,drop2)
+VALUES (NULL, 'Loewe', 55 , 21, 0,18,3,8,7,2, 6, 3, 'zaehes Fleisch', 'Lowenenfell', 'Maehne');
+
+INSERT INTO gegner(gid,gname,lebenspunkte,verteidigung, schadensreduktion,angriffsbonus,gegnerklasse,initative,tickzuschlag,wuerfelanzahl,wuerfelart,schadensbonus,savedrop,drop1,drop2)
+VALUES (NULL, 'Loewe', 55 , 21, 0,18,3,8,7,2, 6, 3, 'zaehes Fleisch', 'Lowenenfell', 'Maehne');
+
+INSERT INTO gegner(gid,gname,lebenspunkte,verteidigung, schadensreduktion,angriffsbonus,gegnerklasse,initative,tickzuschlag,wuerfelanzahl,wuerfelart,schadensbonus,savedrop,drop1,drop2)
+VALUES (NULL, 'Sanddrache', 55 , 37, 5,23,5,5,14,5, 6, 4, 'Drachengift', 'Drachenschuppe', 'Drachenei');
 
 INSERT INTO charakter(cid, fk_user, fk_aktivewaffe, fk_aktiveruestung, fk_aktivesschild,
-                      cname, gold, erfahrung, aktlebenspunkte,lebenspunktemax, ausstrahlung, beweglichkeit,
-                      intuition, konstitution,mystik, staerke, verstand ,willenskraft,
-                      handgemengeskill,hiebwaffenskill,kettenwaffenskill,klingenwaffenskill,stangenwaffenskill,tick, rasse)
-VALUES (NULL , 1 , 1 , 1, 1,  'testchar' ,0 ,30 , 32 , 32 , 2 , 1 , 1, 2,0,0,0,0,0,0,0,0,0,0,'Mensch');
+                      cname, gold, gesamterfahrung, aktlebenspunkte,lebenspunktemax, ausstrahlung, beweglichkeit,
+                      intuition, konstitution,mystik, staerke, verstand ,willenskraft,startausstrahlung, startbeweglichkeit,
+                      startintuition, startkonstitution, startmystik, startstaerke, startverstand ,startwillenskraft,
+                      handgemengeskill,hiebwaffenskill,kettenwaffenskill,klingenwaffenskill,stangenwaffenskill,tick, rasse,ausgegebeneerfahrung)
+VALUES (NULL , 6 , 2 , 2, 2,  'testcharakter' ,5000 ,30 , 32 , 32 , 2 , 1 , 1, 2,0,3,0,0,2,1,1,2,0,3,0,0,0,10,0,0,0,0,'Mensch',0);
 INSERT INTO charakter(cid, fk_user, fk_aktivewaffe, fk_aktiveruestung, fk_aktivesschild,
-                      cname, gold, erfahrung, aktlebenspunkte,lebenspunktemax, ausstrahlung, beweglichkeit,
-                      intuition, konstitution,mystik, staerke, verstand ,willenskraft,
-                      handgemengeskill,hiebwaffenskill,kettenwaffenskill,klingenwaffenskill,stangenwaffenskill,tick, rasse)
-VALUES (NULL , 6 , 2 , 2, 2,  'Masterius' ,5000 ,30 , 32 , 32 , 2 , 1 , 1, 2,0,3,0,0,0,10,0,0,0,0,'Mensch');
+                      cname, gold, gesamterfahrung, aktlebenspunkte,lebenspunktemax, ausstrahlung, beweglichkeit,
+                      intuition, konstitution,mystik, staerke, verstand ,willenskraft,startausstrahlung, startbeweglichkeit,
+                      startintuition, startkonstitution, startmystik, startstaerke, startverstand ,startwillenskraft,
+                      handgemengeskill,hiebwaffenskill,kettenwaffenskill,klingenwaffenskill,stangenwaffenskill,tick, rasse,ausgegebeneerfahrung)
+VALUES (NULL , 6 , 2 , 2, 2,  'testcharakter2' ,5000 ,30 , 32 , 32 , 2 , 1 , 1, 2,0,3,0,0,2,1,1,2,0,3,0,0,0,10,0,0,0,0,'Mensch',0);
 
 
 
@@ -255,6 +277,9 @@ VALUES (NULL, 'Streitaxt', 'Waffe' , 'KON' , 'STA' , 2 , 6 , 3, 'Hiebwaffen',16,
 INSERT INTO waffe(wid, wname, typ, attri1,attri2,wuerfelanzahl,wuerfelart,schadensbonus, waffenart, kosten,waffengeschwindigkeit)
 VALUES (NULL, 'Peitsche' ,'Waffe' , 'BEW' , 'INT' , 1 , 10 , -2, 'Klingenwaffen',1,15);
 
+INSERT INTO waffe(wid, wname, typ, attri1,attri2,wuerfelanzahl,wuerfelart,schadensbonus, waffenart, kosten,waffengeschwindigkeit)
+VALUES (NULL, 'Dolch' ,'Waffe' , 'BEW' , 'INT' , 1 , 6 , 1, 'Klingenwaffen',3,6);
+
 INSERT INTO gegenstand(gegid, gname, typ, kosten, einnehmbar)
 VALUES (NULL, 'Heiltrank','Gegenstand' , 8, 1);
 
@@ -263,13 +288,13 @@ INSERT INTO fertigkeitenbogen(fk_cid,akrobatik,alchemie , anfuehren ,arkanekunde
                             edelhandwerk, empathie, entschlossenheit,fingerfertigkeit, geschichteundmythen, handwerk,
                             heilkunde,heimlichkeit, jagdkunst,laenderkunde,naturkunde,redegewandtheit, schloesserundfallen,
                             schwimmen,seefahrt, strassenkunde,tierfuehrung,ueberleben,wahrnehmung,zaehigkeit)
-                            VALUES (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+                            VALUES (1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
 INSERT INTO fertigkeitenbogen(fk_cid,akrobatik,alchemie , anfuehren ,arkanekunde ,  athletik , darbietung ,  diplomatie,
                               edelhandwerk, empathie, entschlossenheit,fingerfertigkeit, geschichteundmythen, handwerk,
                               heilkunde,heimlichkeit, jagdkunst,laenderkunde,naturkunde,redegewandtheit, schloesserundfallen,
                               schwimmen,seefahrt, strassenkunde,tierfuehrung,ueberleben,wahrnehmung,zaehigkeit)
-                                VALUES (2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+                                VALUES (2,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
 
 INSERT INTO charakter_gegenstand(cgid, fk_cid, Gegenstandstyp, fk_gsid)

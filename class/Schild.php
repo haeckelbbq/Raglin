@@ -1,7 +1,7 @@
 <?php
 
 
-class Schild
+class Schild implements JsonSerializable
 {
     private int     $sid;
     private string  $sname;
@@ -109,11 +109,13 @@ class Schild
         {
             $dbh = Db::getConnection();
             //DB abfragen
-            $sql = 'SELECT sid, sname, typ, verteidigungsbonus, schadensreduktion, kosten, tickzuschlag, behinderung FROM charakter_gegenstand, schild  WHERE fk_cid = :cid AND gegenstandstyp = schild.typ';
+
+            $sql = 'SELECT sid, sname, typ, verteidigungsbonus, schadensreduktion, kosten, tickzuschlag, behinderung FROM charakter_gegenstand, schild  WHERE fk_cid = :cid AND gegenstandstyp = schild.typ AND fk_gsid = schild.sid';
             $sth = $dbh->prepare($sql);
             $sth->bindParam('cid', $cid, PDO::PARAM_INT);
             $sth->execute();
             $schilde = $sth->fetchAll(PDO::FETCH_FUNC, 'Schild::buildFromPDO');
+
         }
         catch (PDOException $e)
         {
@@ -151,5 +153,21 @@ class Schild
         }
 //
         return $schilde;
+    }
+    public function jsonSerialize()
+    {
+        return
+            [
+                'sid' => $this->getSid(),
+                'sname' => $this->getSname(),
+                'typ' => $this->getTyp(),
+                'verteidigungsbonus' => $this->getVerteidigungsbonus(),
+                'schadensreduktion' => $this->getSchadensreduktion(),
+                'kosten' => $this->getKosten(),
+                'tickzuschlag' => $this->getTickzuschlag(),
+                'behinderung' => $this->getBehinderung(),
+
+
+            ];
     }
 }
