@@ -129,6 +129,7 @@ class Gegenstand
         }
         return $gegenstand;
     }
+
     public static function getGegenstandCgidByCharakterId($cid, $typ)
     {
         $spalte = '';
@@ -169,7 +170,9 @@ class Gegenstand
             echo 'Connection failed: ' . $e->getMessage();
         }
         return $cgids;
-    }
+    }  // Holt ein Array mit den vorhandenen IDS der Gegenstände die zu einem Charakter gehören.
+                                                                            // entscheidet beim Aufruf anhand der Chakrater ID und als typ get_class auf das jeweilige Objekt in welcher Tabelle der Gegenstand gesucht werden muss
+                                                                            // Ziel ist es einzigartigen ID'S auf die Objekte des Charakters zu erhalten die später mit den ausgegebenen Objekten von ihm zusammengeführt werden
 
     public static function insertGegenstand(int $cid, string $gegenstandstyp, int $fk_gsid)
     {

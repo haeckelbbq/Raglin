@@ -38,7 +38,6 @@ if(isset($charakter)){
 
 
     <h1>Charakterbogen</h1>
-    <h5>Attribute</h5>
     <table cellspacing="0">
         <tbody>
         <th><tr>
@@ -147,10 +146,10 @@ if(isset($charakter)){
 
 
     <h5>Fertigkeiten</h5>
-<div> <p id="fertigkeiten"></p></div>
-<button onclick="Fertigkeitenanzeigen()" class="fertigkeitenstart" id="fertigkeitenstart"; this.onclick=null;>Zeige Fertigkeiten</button>
+<div class="fertigkeitenstart"> <p id="fertigkeiten"></p>
+<button onclick="Fertigkeitenanzeigen()"  id="fertigkeitenstart"; this.onclick=null;>Zeige Fertigkeiten</button>
 
-
+</div>
 
 
 

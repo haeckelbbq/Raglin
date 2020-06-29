@@ -62,15 +62,12 @@ $groessenklasse=Charakter::getGroessenklasseByRasse($charakter->getRasse());
 
         var wertattri1 = <?php echo Anzeigeformat::formatAttributAbkuerzung($waffe->getAttri1(),$charakter->getAusstrahlung(), $charakter->getBeweglichkeit(),$charakter->getIntuition(),$charakter->getKonstitution(),$charakter->getMystik(),$charakter->getStaerke(), $charakter->getVerstand(), $charakter->getWillenskraft());?>;
         var wertattri2 = <?php echo Anzeigeformat::formatAttributAbkuerzung($waffe->getAttri2(),$charakter->getAusstrahlung(),$charakter->getBeweglichkeit(),$charakter->getIntuition(),$charakter->getKonstitution(),$charakter->getMystik(),$charakter->getStaerke(), $charakter->getVerstand(), $charakter->getWillenskraft());?>;
-
-        var charakterinitiative =   10 - charakter.intuition;
-        //12 ist die Konstante die zu der Verteidigungs immer zugerechnet wird
-        var verteidigungcharakter =<?php echo 12+$charakter->getBeweglichkeit()+$charakter->getStaerke()+Charakter::getVTDBonusMalusbyGK($groessenklasse)+ $schild->getVerteidigungsbonus() + $ruestung->getVerteidigungsbonus(); ?>;
+        var charakterinitiative =   10 - charakter.intuition;  // 10 ist die Konstante die als Startinitiative festgelegt ist und durch die Intuition des Charakters gesenkt werden kann.
+        var verteidigungcharakter =<?php echo 12+$charakter->getBeweglichkeit()+$charakter->getStaerke()+Charakter::getVTDBonusMalusbyGK($groessenklasse)+ $schild->getVerteidigungsbonus() + $ruestung->getVerteidigungsbonus(); ?>;  // 12 ist die Konstante die zu der Verteidigungs immer zugerechnet wird
         var schadensreduktion= schild.schadensreduktion + ruestung.schadensreduktion;
         var fertigkeitsbonuswaffe=<?php echo Charakter::getWaffenfertigkeitswertaktuelleWaffe($waffe->getWaffenart(), $charakter->getHandgemengeskill(), $charakter->getKettenwaffenskill(),$charakter->getKlingenwaffenskill(), $charakter->getStangenwaffenskill() ,$charakter->getHiebwaffenskill() )?>;
         var angriffsbonus= fertigkeitsbonuswaffe +  wertattri1+ wertattri2;
         var gegnerlptemp = gegner.lebenspunkte;
-
 
         function getSum(total, num) {
             return total + num;

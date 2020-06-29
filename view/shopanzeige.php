@@ -1,6 +1,6 @@
 <?php include 'module/htmlbegin.php';
-$fkcharakter = User::getFkAktuellerCharakterFromUser($user_id);  // erfragt den aktiven Charakter des Users anhand des FK's zum Charakter
-$charakter =Charakter::getAktiverCharakter($user_id, $fkcharakter);
+$fkcharakter = User::getFkAktuellerCharakterFromUser($user_id);  // erfragt die ID des aktiven Charakters vom User
+$charakter =Charakter::getAktiverCharakter($user_id, $fkcharakter);  // erzeugt den Charakter anhand der abgefragten ID
 $waffen = Waffe::getWaffenFromDatabase();
 $ruestungen = Ruestung::getRuestungenFromDatabase();
 $schilde = Schild::getSchildeFromDatabase();

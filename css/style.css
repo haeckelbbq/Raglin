@@ -56,7 +56,7 @@ header p{
     background: none;
     height: 350px;
     overflow-y: auto;
-    width: 700px;
+    width: 500px;
     padding: 10px;
     margin: 50px;
 }
@@ -67,7 +67,7 @@ nav {
     background-color: transparent;
     float: left;
     width: 333px;
-    height: 1670px;
+    height: 1735px;
     background-repeat: no-repeat;
     text-align: center;
     font-size:40px;
@@ -119,7 +119,6 @@ body {
     font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
     color:#000000;
     padding:0;
-    margin:0;
     width: 100%;
     /*background-image: url("IMG/background.jpg");*/
     font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
@@ -135,10 +134,12 @@ footer {
     padding:96px;
 
     background-color: black;
-    height: 25px;
+    height: 100px;
     width: 80%;
     position: inherit;
     margin-left: 180px;
+
+
 }
 
 aside
